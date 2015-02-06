@@ -9,7 +9,7 @@ module Net; class Driller
   def initialize( args )
     @config       = Net::Driller::Config.new(args)
     @log          = Net::Driller::Logger.new(STDERR)
-    @tunnel_range = @config.tunnel_range || tunnel_range_default
+    @ip_broker    = Net::Driller::IpBroker.new(@config.tunnel_range)
 
     load_hosts
   end
@@ -47,11 +47,4 @@ module Net; class Driller
       @log.error "#{host1.name} and #{host2.name} can't ping each other after setting up the tunnel!"
     end
   end
-
-  private
-  def tunnel_range_default
-    @log.warn 'Using default tunnel range: 10.11.0.0/16'
-    '10.11'
-  end
-
 end; end
